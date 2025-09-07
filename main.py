@@ -1,5 +1,4 @@
 import random
-import turtle
 from turtle import Turtle, Screen
 
 screen = Screen()
@@ -15,7 +14,10 @@ finish_line_x = 220
 race_on = False
 all_turtles=[]
 finish_order=[]
+finishing_order_colour=[]
 
+def start_intro():
+    return
 #Setup turtles
 for no_of_turtles in range(0,6):
     new_turtle = Turtle(shape="turtle")
@@ -24,7 +26,7 @@ for no_of_turtles in range(0,6):
     for _ in turtle_rotation:
         new_turtle.speed(100)
         new_turtle.setheading(_)
-    new_turtle.speed(2)
+    new_turtle.speed(100)
     new_turtle.goto(turtle_start_x, turtle_start_y)
     turtle_start_y += 50
     all_turtles.append(new_turtle)
@@ -39,19 +41,25 @@ while race_on:
     for turtle in all_turtles:
         race_distance = random.randint(0,10)
         turtle.forward(race_distance)
+        # print(turtle.pencolor())
         if turtle.xcor() >= finish_line_x:
+            if not finish_order:
+                winning_turtle = turtle.pencolor()
             all_turtles.remove(turtle)
             finish_order.append(turtle)
-
+            finishing_order_colour.append(turtle.pencolor())
         if not all_turtles:
             race_on = False
 
-
-if user_bet == finish_order[0].colo:
+if user_bet == winning_turtle:
     print("You win!")
 else:
-    print("You lose!")
-    print(f"{finish_order[0]} wins.")
+    print   (f"You lose! Winning order.",
+            "\n________________________")
+
+    fin_length = len(finishing_order_colour)
+    for i in range(0, fin_length):
+        print(f"{i+1}.{finishing_order_colour[i]}.")
 
 screen.listen()
 screen.exitonclick()
